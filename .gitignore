@@ -1,3 +1,6 @@
+# Database
+*.sqlite3
+
 # Staticfiles
 twilio_sample_project/staticfiles
 

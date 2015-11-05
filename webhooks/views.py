@@ -12,7 +12,14 @@ def incoming_call(request):
     resp = twiml.Response()
 
     # <Say> a message to the caller
-    resp.say("Thanks for calling! I got your call because of Twilio's webhook. Goodbye!")
+    from_number = request.POST['From']
+    body = """
+    Thanks for calling!
+
+    Your phone number is {0}. I got your call because of Twilio's webhook.
+
+    Goodbye!""".format(' '.join(from_number))
+    resp.say(body)
 
     # Return the TwiML
     return HttpResponse(resp)
@@ -24,8 +31,10 @@ def incoming_message(request):
     # Create a new TwiML response
     resp = twiml.Response()
 
-    # <Say> a message to the caller
-    resp.message("Thanks for your text! Webhooks are neat :)")
+    # <Message> a text back to the person who texted us
+    body = "Thanks for your text! My phone number is {0}. Webhooks are neat :)" \
+        .format(request.POST['To'])
+    resp.message(body)
 
     # Return the TwiML
     return HttpResponse(resp)
