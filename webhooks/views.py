@@ -32,8 +32,8 @@ def incoming_message(request):
     resp = twiml.Response()
 
     # <Message> a text back to the person who texted us
-    body = "Thanks for your text! My phone number is {0}. Webhooks are neat :)" \
-        .format(request.POST['To'])
+    body = "Your text to me was {0} characters long. Webhooks are neat :)" \
+        .format(len(request.POST['Body']))
     resp.message(body)
 
     # Return the TwiML
