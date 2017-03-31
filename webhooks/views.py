@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -26,7 +27,7 @@ def validate_twilio_request(f):
 
         # Continue processing the request if it's valid, return a 403 error if
         # it's not
-        if request_valid:
+        if request_valid or settings.DEBUG:
             return f(request, *args, **kwargs)
         else:
             return HttpResponseForbidden()
