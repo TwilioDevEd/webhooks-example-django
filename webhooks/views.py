@@ -2,7 +2,9 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from functools import wraps
-from twilio import twiml
+from twilio.twiml.voice_response import VoiceResponse
+from twilio.twiml.messaging_response import MessagingResponse
+
 from twilio.util import RequestValidator
 
 import os
@@ -36,7 +38,7 @@ def validate_twilio_request(f):
 def incoming_call(request):
     """Twilio Voice URL - receives incoming calls from Twilio"""
     # Create a new TwiML response
-    resp = twiml.Response()
+    resp = VoiceResponse()
 
     # <Say> a message to the caller
     from_number = request.POST['From']
@@ -57,7 +59,7 @@ def incoming_call(request):
 def incoming_message(request):
     """Twilio Messaging URL - receives incoming messages from Twilio"""
     # Create a new TwiML response
-    resp = twiml.Response()
+    resp = MessagingResponse()
 
     # <Message> a text back to the person who texted us
     body = "Your text to me was {0} characters long. Webhooks are neat :)" \
